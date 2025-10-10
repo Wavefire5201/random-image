@@ -5,15 +5,19 @@ reloaded the page so I made this project.
 
 ---
 
-To install dependencies:
+run with docker:
+
+```bash
+docker build --pull -t random-image .
+docker run -d -p 3000:3000 -v ./images:/images random-image
+```
+
+---
+
+run locally:
 
 ```bash
 bun install
-```
-
-To run:
-
-```bash
 bun run index.ts
 ```
 
