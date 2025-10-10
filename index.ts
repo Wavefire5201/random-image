@@ -6,6 +6,19 @@ const images = readdirSync(basePath).map(image => {
   return path.join(basePath, image);
 });
 
+const getContentType = (filename: string) => {
+  const ext = path.extname(filename).toLowerCase();
+  switch (ext) {
+    case ".jpg":
+    case ".jpeg":
+      return "image/jpeg";
+    case ".png":
+      return "image/png";
+    default:
+      return "application/octet-stream";
+  }
+};
+
 Bun.serve({
   port: 3000,
   fetch(request) {
@@ -20,7 +33,15 @@ Bun.serve({
 
       if (file.size > 0) {
         console.log(`Served: ${file.name}`)
-        return new Response(file);
+        return new Response(file,
+          {
+            headers: {
+              "Content-Type": getContentType(imagePath),
+              "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+              "Pragma": "no-cache",
+              "Expires": "0",
+            }
+          });
       } else {
         return new Response("Image not found", { status: 404 });
       }
