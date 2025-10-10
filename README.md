@@ -2,6 +2,7 @@
 
 had a random idea to have a random image for my profile readme every time someone
 reloaded the page so I made this project.
+(doesn't work because github caches images but oh well)
 
 ---
 
