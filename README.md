@@ -5,7 +5,12 @@ reloaded the page so I made this project.
 
 #### what it do?
 
-by default, when github requests a server for an image, it will cache it (for obvious reasons). but, to get the super duper cool image change on every refresh, how do we achieve this? simple, we just force github to make a new request every single time by telling it to not cache the image (check line 40 in `index.ts`). since there won't be any caching, i have also made sure to optimize my image files so they will load quickly.
+by default, when github requests a server for an image, it will cache it
+(for obvious reasons). but, to get the super duper cool image change on every refresh,
+how do we achieve this? simple, we just force github to make a new request every
+single time by telling it to not cache the image (check line 40 in `index.ts`).
+since there won't be any caching, i have also made sure to optimize my image
+files so they will load quickly.
 
 ---
 
