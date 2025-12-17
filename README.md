@@ -19,6 +19,9 @@ run with docker:
 ```bash
 docker build --pull -t random-image .
 docker run -d -p 3000:3000 -v ./images:/images random-image
+
+# or with docker compose
+docker compose up -d
 ```
 
 run locally:
