@@ -1,7 +1,16 @@
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
 
-const basePath = process.env.IMAGE_PATH ? process.env.IMAGE_PATH : "./images/";
+const basePath = process.env.IMAGE_PATH ?? "./images/";
+
+const log = (req: Request, status: number, extra?: string) => {
+  const now = new Date().toISOString();
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const method = req.method;
+  const url = new URL(req.url).pathname;
+  const suffix = extra ? ` (${extra})` : "";
+  console.log(`[${now}] ${ip} ${method} ${url} -> ${status}${suffix}`);
+};
 const images = readdirSync(basePath).map(image => {
   return path.join(basePath, image);
 });
@@ -32,7 +41,7 @@ Bun.serve({
       const file = Bun.file(imagePath);
 
       if (file.size > 0) {
-        console.log(`Served: ${file.name}`)
+        log(request, 200, path.basename(imagePath));
         return new Response(file,
           {
             headers: {
@@ -43,12 +52,14 @@ Bun.serve({
             }
           });
       } else {
+        log(request, 404, "file empty");
         return new Response("Image not found", { status: 404 });
       }
     }
 
+    log(request, 404);
     return new Response("Not found", { status: 404 });
   },
 });
 
-console.log("Started server")
+console.log(`[${new Date().toISOString()}] Server started on port 3000`)
