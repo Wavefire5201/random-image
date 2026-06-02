@@ -6,10 +6,14 @@ const basePath = process.env.IMAGE_PATH ?? "./images/";
 const log = (req: Request, status: number, extra?: string) => {
   const now = new Date().toISOString();
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const ua = req.headers.get("user-agent") ?? "unknown";
+  // GitHub fetches readme images through its Camo proxy, which identifies itself
+  // in the UA. Everything else is a direct hit (browser, bot, curl) with a real IP.
+  const via = /camo/i.test(ua) ? "camo" : "direct";
   const method = req.method;
   const url = new URL(req.url).pathname;
   const suffix = extra ? ` (${extra})` : "";
-  console.log(`[${now}] ${ip} ${method} ${url} -> ${status}${suffix}`);
+  console.log(`[${now}] ${via} ${ip} "${ua}" ${method} ${url} -> ${status}${suffix}`);
 };
 const images = readdirSync(basePath).map(image => {
   return path.join(basePath, image);

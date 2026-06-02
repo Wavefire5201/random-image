@@ -27,6 +27,12 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .cache
 *.tsbuildinfo
 
+# cloudflare wrangler
+.wrangler
+
+# oh-my-claudecode tool state
+.omc
+
 # IntelliJ based IDEs
 .idea
 

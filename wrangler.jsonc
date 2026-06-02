@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "random-image",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-06-01",
+  // Bundles ./images with the Worker and exposes them via the ASSETS binding.
+  "assets": {
+    "directory": "./images",
+    "binding": "ASSETS"
+  },
+  // Regenerate src/manifest.json from ./images before every dev/deploy.
+  "build": {
+    "command": "node scripts/gen-manifest.mjs"
+  },
+  // Persist console.log output + exceptions to the dashboard (Workers Logs).
+  // head_sampling_rate: 1 = log every request (fine at this traffic level).
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
